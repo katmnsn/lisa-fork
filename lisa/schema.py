@@ -1586,8 +1586,6 @@ class TestCase(BaseTestCaseFilter):
     # it uses to work around some cases temporarily, don't overuse it.
     # default is false
     ignore_failure: bool = False
-    # case should run on a specified environment
-    environment: str = ""
 
     @classmethod
     def type_name(cls) -> str:
@@ -1658,6 +1656,8 @@ class Runbook:
     environment: Optional[EnvironmentRoot] = field(default=None)
     notifier: Optional[List[Notifier]] = field(default=None)
     platform: List[Platform] = field(default_factory=list)
+    # if it's true, import built-in test cases: lisa/microsoft
+    import_builtin_tests: bool = False
     #  will be parsed in runner.
     testcase_raw: List[Any] = field(
         default_factory=list, metadata=field_metadata(data_key=constants.TESTCASE)
