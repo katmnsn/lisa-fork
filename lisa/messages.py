@@ -290,6 +290,41 @@ class DescriptorPollThroughput(PerfMessage):
 
 
 @dataclass
+class SysbenchCPUMessage(PerfMessage):
+    events_per_second: Decimal = Decimal(0)
+    total_events: int = 0
+    total_time_seconds: Decimal = Decimal(0)
+    latency_min_ms: Decimal = Decimal(0)
+    latency_avg_ms: Decimal = Decimal(0)
+    latency_max_ms: Decimal = Decimal(0)
+    latency_95th_percentile_ms: Decimal = Decimal(0)
+    latency_99th_percentile_ms: Decimal = Decimal(0)
+
+
+@dataclass
+class SysbenchMemoryMessage(PerfMessage):
+    operations_per_second: Decimal = Decimal(0)
+    throughput_mib_per_sec: Decimal = Decimal(0)
+    total_time_seconds: Decimal = Decimal(0)
+    latency_min_ms: Decimal = Decimal(0)
+    latency_avg_ms: Decimal = Decimal(0)
+    latency_max_ms: Decimal = Decimal(0)
+
+
+@dataclass
+class SysbenchFileIOMessage(PerfMessage):
+    reads_per_second: Decimal = Decimal(0)
+    writes_per_second: Decimal = Decimal(0)
+    fsyncs_per_second: Decimal = Decimal(0)
+    read_throughput_mib_per_sec: Decimal = Decimal(0)
+    write_throughput_mib_per_sec: Decimal = Decimal(0)
+    total_time_seconds: Decimal = Decimal(0)
+    latency_min_ms: Decimal = Decimal(0)
+    latency_avg_ms: Decimal = Decimal(0)
+    latency_max_ms: Decimal = Decimal(0)
+
+
+@dataclass
 class ProvisionBootTimeMessage(MessageBase):
     type: str = "ProvisionBootTime"
 

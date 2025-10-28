@@ -1,0 +1,414 @@
+---
+mode: 'agent'
+description: 'LISA test ideation and planning workflow - analyze requirements, design test strategy, and propose implementation plans.'
+tools: ['search', 'search/codebase', 'edit/editFiles', 'problems', 'runCommands', 'fetch', 'changes']
+---
+
+# LISA Test Ideation & Planning Workflow
+
+This workflow helps you design LISA tests through systematic requirement analysis and infrastructure discovery.
+
+## When to Use This Workflow
+
+1. "What should I test for [feature]?"
+2. "I need to verify [functionality] works correctly"
+3. "How should I organize tests for [component]?"
+4. Planning test coverage strategy
+5. Exploring existing test infrastructure
+
+## Interactive Discovery Process
+
+I will guide you through 5 phases to design your test:
+
+### Phase 1: Requirements Gathering
+
+**I will present a suggested scenario based on your request, then ask for customizations.**
+
+**Format:**
+
+```
+## Suggested Test Scenario
+
+Based on your request for [feature/tool], here's a recommended approach:
+
+**1. Test Purpose & Scope**
+   A. Functionality: [specific functionality to test]
+   B. Category: [functional/performance/stress/regression]
+   C. Expected outcome: [success criteria]
+
+**2. Target Platforms**
+   A. Supported OS: [distros with reasoning]
+   B. Excluded OS: [distros to exclude with reasoning]
+   C. Architecture: [x86_64/ARM64/both]
+
+**3. Test Configuration**
+   A. Node count: [single-node/multi-node]
+   B. Hardware requirements: [CPU/memory/disk/NIC specs]
+   C. Special features: [GPU/Infiniband/SR-IOV/NVME/none]
+
+**4. Test Implementation**
+   A. Commands/operations: [specific commands]
+   B. Success criteria: [exit codes/metrics/assertions]
+   C. Setup/teardown: [required preparation]
+
+**5. Test Organization**
+   A. File location: [path to test suite file]
+   B. Priority: [0=critical, 1=high, 2=medium, 3=low]
+   C. Test area: [core/network/storage/performance/etc.]
+
+---
+
+**Do you want to:**
+A. Use this scenario as-is (I'll proceed to Phase 2)
+B. Customize specific sections (tell me which sections to modify)
+C. Start from scratch with different requirements
+```
+
+**If you choose B (customize), respond with section numbers:**
+1. Example: "Change 2A and 3B" - then provide new values
+2. Example: "Modify section 4" - then describe changes
+
+### Phase 2: Infrastructure Analysis
+
+**I will search the codebase and report findings in structured format:**
+
+```
+## Infrastructure Analysis Results
+
+**1. Existing Test Suites**
+   A. Similar tests found: [list with file paths]
+   B. Reusable patterns identified: [specific examples]
+   C. Test coverage gaps: [what's missing]
+
+**2. Available Tools (lisa/tools/)**
+   A. Relevant existing tools: [list tools that match requirements]
+   B. Tool usage examples: [code references]
+   C. Tools needed (if any): [tools to create]
+
+**3. Available Features (lisa/features/)**
+   A. Platform capabilities: [features that apply]
+   B. Support check patterns: [how to check if supported]
+   C. Feature requirements: [which features are needed]
+
+**4. OS-Specific Analysis**
+   A. Native tool availability: [which distros have the tool/package]
+   B. Version requirements: [minimum versions needed]
+   C. Known limitations: [distro-specific issues]
+
+**5. Test Structure Recommendation**
+   A. File organization: [new file or extend existing - with reasoning]
+   B. Code reuse opportunities: [existing helpers to leverage]
+   C. Pattern compliance: [which patterns apply from Pattern Library]
+```
+
+### Phase 3: Design Proposal
+
+**I will present:**
+
+```
+## Proposed Test Design
+
+**Structure:**
+   A. File: microsoft/testsuites/[area]/test_[name].py
+   B. Class: [ClassName]TestSuite
+   C. Method: test_[specific_name]
+
+**OS Requirements:**
+   A. Supported: [distros] - [reasoning based on native capabilities]
+   B. Excluded: [distros] - [specific reasons]
+
+**LISA Components:**
+   A. Tools: [existing tools from lisa/tools/]
+   B. Features: [features from lisa/features/ with Pattern #2 support checks]
+   C. Helpers: [new OR refactored existing with reasoning]
+
+**Test Flow:**
+1. [Step 1 description]
+2. [Step 2 description]
+3. [Validation strategy]
+
+**Pattern Usage:**
+   A. Pattern #1: [node.mark_dirty() placement]
+   B. Pattern #2: [feature support checks]
+   C. Pattern #3: [helper naming]
+   D. [Other applicable patterns]
+
+**Infrastructure Reuse:**
+   A. Similar tests: [references]
+   B. Refactoring strategy: [delegation vs new functions]
+
+---
+
+**What would you like to do next?**
+A. Approve design and generate code (continue to Phase 5)
+B. Modify specific sections (tell me which sections)
+C. Stop here - design is complete (I'll end the ideation workflow)
+```
+
+### Phase 4: Refinement
+
+**Based on your feedback, I'll adjust the design:**
+
+**Response format for modifications:**
+```
+Please specify which sections to modify using numbers:
+
+Examples:
+1. "Change section 2A and 3B" - then provide new OS and hardware requirements
+2. "Modify section 4" - then describe new test implementation approach
+3. "Update section 5A" - then specify new file location
+
+I will update the design proposal and present the revised version.
+```
+
+### Phase 5: Next Steps (Your Choice)
+
+After the design proposal is approved, you can choose:
+
+**A. Stop here (Path B - Ideation Only)**
+- You have a complete design document
+- You can implement the code yourself
+- Or come back later for code generation
+
+**B. Continue to code generation (Path A - Full Workflow)**
+- I'll switch to the Code Generation workflow
+- Generate production-ready Python test code
+- Follow all patterns from the design proposal
+
+**C. Modify the design first**
+- Make adjustments to the design proposal
+- Then choose A or B above
+
+**Ask me:** "Generate code now" (option B) or "Stop here" (option A)
+
+## Decision Trees & Tools
+
+I have access to decision trees for:
+1. **Test Organization** - Where should this test go?
+2. **Tool Selection** - What operations are required?
+
+These decision trees are loaded on-demand from [lisa-decision-trees.md](../references/lisa-decision-trees.md).
+
+## Reference Materials
+
+**Decision Trees:** (loaded on-demand from [lisa-decision-trees.md](../references/lisa-decision-trees.md))
+1. [Test Method Signature Selection](../references/lisa-decision-trees.md#test-method-signature-selection)
+2. [OS Requirements Decision](../references/lisa-decision-trees.md#os-requirements-decision)  
+3. [Feature vs Tool Decision](../references/lisa-decision-trees.md#feature-vs-tool-decision)
+4. [Error Handling Strategy](../references/lisa-decision-trees.md#error-handling-strategy)
+
+**Pattern Library:** (detailed implementations in [lisa-patterns.md](../references/lisa-patterns.md))
+- Pattern #1: Node Cleanup - Pattern #7: Timeout Protection
+
+## Example Interactions
+
+### Example 1: User accepts suggested scenario
+
+**User:** "I want to test GPU driver persistence across reboot on Ubuntu"
+
+**My Response:**
+```
+## Suggested Test Scenario
+
+Based on your request for GPU driver persistence testing, here's a recommended approach:
+
+**1. Test Purpose & Scope**
+   A. Functionality: Verify GPU drivers remain functional after VM reboot
+   B. Category: functional
+   C. Expected outcome: GPU count and driver version match pre/post reboot
+
+**2. Target Platforms**
+   A. Supported OS: Ubuntu 20.04+, RHEL 8+ (distros with GPU driver support)
+   B. Excluded OS: Windows, BSD (different driver model)
+   C. Architecture: x86_64 (GPU VMs typically x64)
+
+**3. Test Configuration**
+   A. Node count: single-node
+   B. Hardware requirements: GPU-enabled VM (Standard_NC series)
+   C. Special features: GPU feature required
+
+**4. Test Implementation**
+   A. Commands/operations: lspci for GPU detection, reboot, re-check lspci
+   B. Success criteria: GPU count matches, driver info preserved
+   C. Setup/teardown: None required
+
+**5. Test Organization**
+   A. File location: microsoft/testsuites/gpu/gpu.py (extend existing)
+   B. Priority: 2 (medium - regression coverage)
+   C. Test area: gpu
+
+---
+
+Do you want to:
+A. Use this scenario as-is (I'll proceed to Phase 2)
+B. Customize specific sections (tell me which sections to modify)
+C. Start from scratch with different requirements
+```
+
+**User:** "A"
+
+**Me:** [Proceeds to Phase 2 - Infrastructure Analysis]
+
+---
+
+### Example 2: User customizes the scenario
+
+**User:** "I want to test network performance"
+
+**My Response:**
+```
+## Suggested Test Scenario
+
+Based on your request for network performance testing, here's a recommended approach:
+
+**1. Test Purpose & Scope**
+   A. Functionality: Measure TCP throughput between two VMs using ntttcp
+   B. Category: performance
+   C. Expected outcome: Collect throughput metrics, verify meets baseline
+
+**2. Target Platforms**
+   A. Supported OS: All Linux distros (ntttcp widely available)
+   B. Excluded OS: None for Linux, Windows excluded for this tool
+   C. Architecture: x86_64 and ARM64
+
+**3. Test Configuration**
+   A. Node count: multi-node (2 nodes - client and server)
+   B. Hardware requirements: 4+ cores, accelerated networking preferred
+   C. Special features: NetworkInterface feature
+
+**4. Test Implementation**
+   A. Commands/operations: ntttcp server on node1, ntttcp client on node2
+   B. Success criteria: Throughput > 1 Gbps for standard NICs
+   C. Setup/teardown: Configure firewall rules for ntttcp ports
+
+**5. Test Organization**
+   A. File location: microsoft/testsuites/performance/network_perf.py (new file)
+   B. Priority: 3 (low - performance benchmark)
+   C. Test area: performance
+
+---
+
+Do you want to:
+A. Use this scenario as-is (I'll proceed to Phase 2)
+B. Customize specific sections (tell me which sections to modify)
+C. Start from scratch with different requirements
+```
+
+**User:** "Change 1A and 4A - I want to test latency with iperf3 instead"
+
+**Me:**
+```
+Updated scenario:
+
+**1. Test Purpose & Scope**
+   A. Functionality: Measure network latency between two VMs using iperf3
+   [rest unchanged]
+
+**4. Test Implementation**
+   A. Commands/operations: iperf3 server on node1, iperf3 client on node2
+   [rest unchanged]
+
+Proceed with this updated design?
+A. Yes, proceed to Phase 2
+B. Make more changes  
+C. Start over
+```
+
+---
+
+### Example 3: User needs more guidance
+
+**User:** "Add a test for checking firewall status"
+
+**My Response:**
+```
+## Suggested Test Scenario
+
+Based on your request for firewall status testing, here's a recommended approach:
+
+**1. Test Purpose & Scope**
+   A. Functionality: Verify firewall service is running and rules are applied
+   B. Category: functional
+   C. Expected outcome: Firewall active, default rules present
+
+**2. Target Platforms**
+   A. Supported OS: Linux distros with firewalld/ufw (Ubuntu, RHEL, Fedora)
+   B. Excluded OS: Older distros using iptables-only
+   C. Architecture: x86_64 and ARM64
+
+**3. Test Configuration**
+   A. Node count: single-node
+   B. Hardware requirements: Standard VM (2 cores minimum)
+   C. Special features: None
+
+**4. Test Implementation**
+   A. Commands/operations: Check firewalld/ufw status, list active rules
+   B. Success criteria: Service running, SSH port 22 allowed
+   C. Setup/teardown: None required
+
+**5. Test Organization**
+   A. File location: microsoft/testsuites/network/firewall.py (new file)
+   B. Priority: 2 (medium - security validation)
+   C. Test area: network
+
+---
+
+Do you want to:
+A. Use this scenario as-is (I'll proceed to Phase 2)
+B. Customize specific sections (tell me which sections to modify)
+C. Start from scratch with different requirements
+```
+
+## Output Format
+
+### For Questions
+
+```
+Based on [context], I need to clarify: [specific question]?
+
+Options:
+A. [option 1]
+B. [option 2]
+C. [option 3]
+
+Or provide your specific requirement.
+```
+
+### For Proposals
+
+```
+## Proposed Test Design
+
+[Structured proposal as shown above]
+
+---
+
+**What would you like to do next?**
+A. Approve design and generate code
+B. Modify specific sections
+C. Stop here - design is complete
+```
+
+## Workflow Completion
+
+**If you chose to stop at design (Path B):**
+- You now have a complete test design document
+- Implement the code when ready
+- Use [Code Generation workflow](./lisa-test-codegen.prompt.md) later if needed
+
+**If you chose to continue to code generation (Path A):**
+- I'll switch to the Code Generation workflow
+- Generate production-ready code based on the approved design
+- Validate with `nox -vrt all` (see `docs/write_test/dev_setup.rst`)
+
+**Need debugging help?** Ask in Copilot chat with your error messages
+
+---
+
+**Related Workflows:**
+- [Main Orchestrator](./write-lisa-test.prompt.md)
+- [Code Generation](./lisa-test-codegen.prompt.md)
+
+**Reference Libraries:**
+- [LISA Patterns](../references/lisa-patterns.md)
+- [Development Setup & Nox Commands](../../docs/write_test/dev_setup.rst)
