@@ -1,0 +1,87 @@
+# Example Runbook for Sysbench Performance Tests
+#
+# This runbook demonstrates how to run sysbench performance tests on Azure VMs.
+# 
+# Usage:
+#   lisa -r sysbench_example.yml -v subscription_id:<your-subscription-id>
+#
+# To run specific tests:
+#   lisa -r sysbench_example.yml -t perf_sysbench_cpu
+#   lisa -r sysbench_example.yml -t "perf_sysbench_memory_*"
+
+name: sysbench_performance_example
+test_project: lisa
+test_pass: sysbench_validation
+
+# Environment configuration
+environment:
+  # Test on a single VM with adequate resources
+  - nodes:
+      - type: Standard_D4s_v5  # 4 vCPUs, 16 GB RAM
+        os:
+          type: Ubuntu
+          version: "22.04"
+        # Optional: You can also test on different distributions
+        # Uncomment to test multiple OS versions:
+        # - type: Ubuntu
+        #   version: "24.04"
+        # - type: Debian
+        #   version: "12"
+
+# Test case selection
+testcase:
+  # Run all sysbench tests
+  - criteria:
+      area: sysbench
+      category: performance
+      priority: 3
+
+# Optional: Customize individual test cases
+# Uncomment to run only specific tests:
+#
+# testcase:
+#   # CPU performance only
+#   - name: perf_sysbench_cpu
+#
+#   # Memory tests only
+#   - name: perf_sysbench_memory_write
+#   - name: perf_sysbench_memory_read
+#
+#   # Threading tests only
+#   - name: perf_sysbench_threads
+#   - name: perf_sysbench_mutex
+
+# Optional: Test across multiple VM sizes for comparison
+# Uncomment to enable:
+#
+# environment:
+#   # Small VM
+#   - nodes:
+#       - type: Standard_D2s_v5
+#         os:
+#           type: Ubuntu
+#           version: "22.04"
+#
+#   # Medium VM
+#   - nodes:
+#       - type: Standard_D4s_v5
+#         os:
+#           type: Ubuntu
+#           version: "22.04"
+#
+#   # Large VM
+#   - nodes:
+#       - type: Standard_D8s_v5
+#         os:
+#           type: Ubuntu
+#           version: "22.04"
+
+# Optional: Notifier configuration for results
+# Uncomment to enable HTML or console notifications:
+#
+# notifier:
+#   - type: console
+#     log_level: INFO
+#
+#   - type: html
+#     path: ./sysbench_results.html
